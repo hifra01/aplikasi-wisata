@@ -9,6 +9,7 @@
 
 import wx
 import wx.xrc
+import wx.adv
 
 ###########################################################################
 ## Class loginFrame
@@ -17,7 +18,7 @@ import wx.xrc
 class loginFrame ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 588,408 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Login - Aplikasi Wisata", pos = wx.DefaultPosition, size = wx.Size( 588,408 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BACKGROUND ) )
@@ -102,7 +103,7 @@ class loginFrame ( wx.Frame ):
 class daftarForm ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 588,564 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Register - Aplikasi Wisata", pos = wx.DefaultPosition, size = wx.Size( 588,564 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BACKGROUND ) )
@@ -157,7 +158,7 @@ class daftarForm ( wx.Frame ):
 
 		sbSizer3.Add( self.m_staticText9, 0, wx.ALL, 5 )
 
-		self.text_password = wx.TextCtrl( sbSizer3.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,30 ), 0|wx.BORDER_NONE )
+		self.text_password = wx.TextCtrl( sbSizer3.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,30 ), wx.TE_PASSWORD|wx.BORDER_NONE )
 		self.text_password.SetFont( wx.Font( 16, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
 
 		sbSizer3.Add( self.text_password, 0, wx.ALL|wx.EXPAND, 5 )
@@ -213,7 +214,7 @@ class daftarForm ( wx.Frame ):
 class beranda ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,346 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Beranda (Customer) - Aplikasi Wisata", pos = wx.DefaultPosition, size = wx.Size( 500,346 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_SCROLLBAR ) )
@@ -290,47 +291,58 @@ class beranda ( wx.Frame ):
 class Pesan  ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,341 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,362 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_SCROLLBAR ) )
 
 		sbSizer5 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Pilih Paket Wisatamu" ), wx.VERTICAL )
 
-		self.m_radioBtn4 = wx.RadioButton( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Jember 3 Hari (3 Hari)", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_radioBtn4.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
-		self.m_radioBtn4.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOW ) )
+		m_comboBox4Choices = [ u"Jember 3 Hari (3 Hari)", u"Jember 1 Minggu (7 Hari)", u"Malang 3 Hari (3 Hari)", u"Malang 1 Minggu (7 Hari)", u"Yogyakarta 3 Hari (3 Hari)", u"Yogyakarta 1 Minggu (7 Hari)" ]
+		self.m_comboBox4 = wx.ComboBox( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Jember 3 Hari (3 Hari)", wx.DefaultPosition, wx.DefaultSize, m_comboBox4Choices, 0 )
+		self.m_comboBox4.SetSelection( 0 )
+		sbSizer5.Add( self.m_comboBox4, 1, wx.ALL|wx.EXPAND, 5 )
 
-		sbSizer5.Add( self.m_radioBtn4, 1, wx.ALL|wx.EXPAND, 5 )
+		sbSizer51 = wx.StaticBoxSizer( wx.StaticBox( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Tanggal Pesananmu" ), wx.VERTICAL )
 
-		self.m_radioBtn42 = wx.RadioButton( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Jember 1 Minggu (7 Hari)", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer5.Add( self.m_radioBtn42, 1, wx.ALL|wx.EXPAND, 5 )
+		self.m_datePicker1 = wx.adv.DatePickerCtrl( sbSizer51.GetStaticBox(), wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
+		sbSizer51.Add( self.m_datePicker1, 1, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_radioBtn43 = wx.RadioButton( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Malang 3 Hari (3 Hari)", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer5.Add( self.m_radioBtn43, 1, wx.ALL|wx.EXPAND, 5 )
+		sbSizer8 = wx.StaticBoxSizer( wx.StaticBox( sbSizer51.GetStaticBox(), wx.ID_ANY, u"Data Detail Orang" ), wx.VERTICAL )
 
-		self.m_radioBtn44 = wx.RadioButton( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Malang 1 Minggu (7 Hari)", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer5.Add( self.m_radioBtn44, 1, wx.ALL|wx.EXPAND, 5 )
+		self.m_listCtrl4 = wx.ListCtrl( sbSizer8.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_ICON )
+		sbSizer8.Add( self.m_listCtrl4, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_radioBtn45 = wx.RadioButton( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Yogyakarta 3 Hari (3 Hari)", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer5.Add( self.m_radioBtn45, 1, wx.ALL|wx.EXPAND, 5 )
+		gSizer16 = wx.GridSizer( 0, 2, 0, 0 )
 
-		self.m_radioBtn41 = wx.RadioButton( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Yogyakarta 1 Minggu (7 Hari)", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer5.Add( self.m_radioBtn41, 1, wx.ALL|wx.EXPAND, 5 )
+		self.m_button36 = wx.Button( sbSizer8.GetStaticBox(), wx.ID_ANY, u"Tambah Orang", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer16.Add( self.m_button36, 0, wx.ALL|wx.EXPAND, 5 )
 
-		gSizer3 = wx.GridSizer( 0, 2, 0, 0 )
-
-		self.m_button19 = wx.Button( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gSizer3.Add( self.m_button19, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_button20 = wx.Button( sbSizer5.GetStaticBox(), wx.ID_ANY, u"Selanjutnya", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button20.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
-		self.m_button20.SetBackgroundColour( wx.Colour( 0, 128, 255 ) )
-
-		gSizer3.Add( self.m_button20, 1, wx.ALL|wx.EXPAND, 5 )
+		self.m_button51 = wx.Button( sbSizer8.GetStaticBox(), wx.ID_ANY, u"Hapus Orang", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer16.Add( self.m_button51, 0, wx.ALL|wx.EXPAND, 5 )
 
 
-		sbSizer5.Add( gSizer3, 1, wx.EXPAND, 5 )
+		sbSizer8.Add( gSizer16, 1, wx.EXPAND, 5 )
+
+
+		sbSizer51.Add( sbSizer8, 1, wx.EXPAND, 5 )
+
+		gSizer31 = wx.GridSizer( 0, 2, 0, 0 )
+
+		self.m_button191 = wx.Button( sbSizer51.GetStaticBox(), wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer31.Add( self.m_button191, 1, wx.ALL|wx.EXPAND, 5 )
+
+		self.m_button201 = wx.Button( sbSizer51.GetStaticBox(), wx.ID_ANY, u"Pesan Paket Sekarang", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button201.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
+		self.m_button201.SetBackgroundColour( wx.Colour( 0, 128, 255 ) )
+
+		gSizer31.Add( self.m_button201, 1, wx.ALL|wx.EXPAND, 5 )
+
+
+		sbSizer51.Add( gSizer31, 1, wx.EXPAND, 5 )
+
+
+		sbSizer5.Add( sbSizer51, 1, wx.EXPAND, 5 )
 
 
 		self.SetSizer( sbSizer5 )
@@ -343,10 +355,10 @@ class Pesan  ( wx.Frame ):
 
 
 ###########################################################################
-## Class Pesan2
+## Class Pesan3
 ###########################################################################
 
-class Pesan2 ( wx.Frame ):
+class Pesan3 ( wx.Frame ):
 
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,399 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
@@ -356,84 +368,32 @@ class Pesan2 ( wx.Frame ):
 
 		bSizer4 = wx.BoxSizer( wx.VERTICAL )
 
-		sbSizer8 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Tanggal Pesan (Format = YYYY-MM-DD)" ), wx.VERTICAL )
+		sbSizer8 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Tambah Orang" ), wx.VERTICAL )
 
-		self.m_textCtrl31 = wx.TextCtrl( sbSizer8.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer8.Add( self.m_textCtrl31, 1, wx.ALL|wx.EXPAND, 5 )
+		sbSizer44 = wx.StaticBoxSizer( wx.StaticBox( sbSizer8.GetStaticBox(), wx.ID_ANY, u"Nama" ), wx.VERTICAL )
+
+		self.m_textCtrl51 = wx.TextCtrl( sbSizer44.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer44.Add( self.m_textCtrl51, 1, wx.ALL|wx.EXPAND, 5 )
+
+
+		sbSizer8.Add( sbSizer44, 1, wx.EXPAND, 5 )
+
+		sbSizer45 = wx.StaticBoxSizer( wx.StaticBox( sbSizer8.GetStaticBox(), wx.ID_ANY, u"No KTP" ), wx.VERTICAL )
+
+		self.m_textCtrl52 = wx.TextCtrl( sbSizer45.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		sbSizer45.Add( self.m_textCtrl52, 1, wx.ALL|wx.EXPAND, 5 )
+
+
+		sbSizer8.Add( sbSizer45, 1, wx.EXPAND, 5 )
+
+		self.m_button36 = wx.Button( sbSizer8.GetStaticBox(), wx.ID_ANY, u"Tambah Orang", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button36.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
+		self.m_button36.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHT ) )
+
+		sbSizer8.Add( self.m_button36, 1, wx.ALL|wx.EXPAND, 5 )
 
 
 		bSizer4.Add( sbSizer8, 1, wx.EXPAND, 5 )
-
-		sbSizer9 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Berapa Orang?" ), wx.VERTICAL )
-
-		m_comboBox1Choices = [ u"1", u"2", u"3", u"4" ]
-		self.m_comboBox1 = wx.ComboBox( sbSizer9.GetStaticBox(), wx.ID_ANY, u"4", wx.DefaultPosition, wx.DefaultSize, m_comboBox1Choices, 0 )
-		self.m_comboBox1.SetSelection( 3 )
-		sbSizer9.Add( self.m_comboBox1, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		bSizer4.Add( sbSizer9, 1, wx.EXPAND, 5 )
-
-		gSizer4 = wx.GridSizer( 0, 2, 0, 0 )
-
-		sbSizer12 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Orang 1" ), wx.VERTICAL )
-
-		self.m_textCtrl35 = wx.TextCtrl( sbSizer12.GetStaticBox(), wx.ID_ANY, u"Nama Lengkap", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer12.Add( self.m_textCtrl35, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_textCtrl36 = wx.TextCtrl( sbSizer12.GetStaticBox(), wx.ID_ANY, u"Nomor KTP", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer12.Add( self.m_textCtrl36, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		gSizer4.Add( sbSizer12, 1, wx.EXPAND, 5 )
-
-		sbSizer121 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Orang 1" ), wx.VERTICAL )
-
-		self.m_textCtrl351 = wx.TextCtrl( sbSizer121.GetStaticBox(), wx.ID_ANY, u"Nama Lengkap", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer121.Add( self.m_textCtrl351, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_textCtrl361 = wx.TextCtrl( sbSizer121.GetStaticBox(), wx.ID_ANY, u"Nomor KTP", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer121.Add( self.m_textCtrl361, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		gSizer4.Add( sbSizer121, 1, wx.EXPAND, 5 )
-
-		sbSizer122 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Orang 1" ), wx.VERTICAL )
-
-		self.m_textCtrl352 = wx.TextCtrl( sbSizer122.GetStaticBox(), wx.ID_ANY, u"Nama Lengkap", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer122.Add( self.m_textCtrl352, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_textCtrl362 = wx.TextCtrl( sbSizer122.GetStaticBox(), wx.ID_ANY, u"Nomor KTP", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer122.Add( self.m_textCtrl362, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		gSizer4.Add( sbSizer122, 1, wx.EXPAND, 5 )
-
-		sbSizer123 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Orang 1" ), wx.VERTICAL )
-
-		self.m_textCtrl353 = wx.TextCtrl( sbSizer123.GetStaticBox(), wx.ID_ANY, u"Nama Lengkap", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer123.Add( self.m_textCtrl353, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_textCtrl363 = wx.TextCtrl( sbSizer123.GetStaticBox(), wx.ID_ANY, u"Nomor KTP", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer123.Add( self.m_textCtrl363, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		gSizer4.Add( sbSizer123, 1, wx.EXPAND, 5 )
-
-		self.m_button23 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button23.SetMaxSize( wx.Size( -1,30 ) )
-
-		gSizer4.Add( self.m_button23, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_button24 = wx.Button( self, wx.ID_ANY, u"Pesan !", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button24.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
-		self.m_button24.SetBackgroundColour( wx.Colour( 0, 128, 255 ) )
-		self.m_button24.SetMaxSize( wx.Size( -1,30 ) )
-
-		gSizer4.Add( self.m_button24, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		bSizer4.Add( gSizer4, 1, wx.EXPAND, 5 )
 
 
 		self.SetSizer( bSizer4 )
@@ -506,7 +466,7 @@ class kodeBooking ( wx.Frame ):
 class riwayatPesanan ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Riwayat Pesanan - Aplikasi Wisata", pos = wx.DefaultPosition, size = wx.Size( 474,299 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_SCROLLBAR ) )
@@ -515,22 +475,22 @@ class riwayatPesanan ( wx.Frame ):
 
 		sbSizer40 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Riwayat Pesanan" ), wx.VERTICAL )
 
-		self.m_textCtrl65 = wx.TextCtrl( sbSizer40.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer40.Add( self.m_textCtrl65, 1, wx.ALL|wx.EXPAND, 5 )
+		self.list_order_history = wx.ListCtrl( sbSizer40.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT|wx.LC_SINGLE_SEL )
+		sbSizer40.Add( self.list_order_history, 0, wx.ALL|wx.EXPAND, 5 )
 
 
 		bSizer6.Add( sbSizer40, 1, wx.EXPAND, 5 )
 
 		gSizer9 = wx.GridSizer( 0, 2, 0, 0 )
 
-		self.m_button29 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gSizer9.Add( self.m_button29, 0, wx.ALL|wx.EXPAND, 5 )
+		self.btn_back = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer9.Add( self.btn_back, 0, wx.ALL|wx.EXPAND, 5 )
 
-		self.m_button30 = wx.Button( self, wx.ID_ANY, u"Lihat Detail", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button30.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
-		self.m_button30.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHT ) )
+		self.btn_order_detail = wx.Button( self, wx.ID_ANY, u"Lihat Detail", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.btn_order_detail.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
+		self.btn_order_detail.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHT ) )
 
-		gSizer9.Add( self.m_button30, 1, wx.ALL|wx.EXPAND, 5 )
+		gSizer9.Add( self.btn_order_detail, 1, wx.ALL|wx.EXPAND, 5 )
 
 
 		bSizer6.Add( gSizer9, 1, wx.EXPAND, 5 )
@@ -541,8 +501,28 @@ class riwayatPesanan ( wx.Frame ):
 
 		self.Centre( wx.BOTH )
 
+		# Connect Events
+		self.list_order_history.Bind( wx.EVT_LIST_ITEM_DESELECTED, self.list_order_history_on_item_deselected )
+		self.list_order_history.Bind( wx.EVT_LIST_ITEM_SELECTED, self.list_order_history_on_item_selected )
+		self.btn_back.Bind( wx.EVT_BUTTON, self.btn_back_onclick )
+		self.btn_order_detail.Bind( wx.EVT_BUTTON, self.btn_order_detail_onclick )
+
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def list_order_history_on_item_deselected( self, event ):
+		event.Skip()
+
+	def list_order_history_on_item_selected( self, event ):
+		event.Skip()
+
+	def btn_back_onclick( self, event ):
+		event.Skip()
+
+	def btn_order_detail_onclick( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -552,46 +532,88 @@ class riwayatPesanan ( wx.Frame ):
 class detailPesanan ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Detail Pesanan - Aplikasi Wisata", pos = wx.DefaultPosition, size = wx.Size( 500,654 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_SCROLLBAR ) )
 
-		bSizer7 = wx.BoxSizer( wx.VERTICAL )
+		bSizer29 = wx.BoxSizer( wx.VERTICAL )
 
-		sbSizer41 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Masukkan Kode Booking" ), wx.VERTICAL )
+		sbSizer20 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Kode Booking" ), wx.VERTICAL )
 
-		self.m_textCtrl66 = wx.TextCtrl( sbSizer41.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,40 ), 0 )
-		sbSizer41.Add( self.m_textCtrl66, 1, wx.ALL|wx.EXPAND, 5 )
-
-		self.m_button36 = wx.Button( sbSizer41.GetStaticBox(), wx.ID_ANY, u"Cek Kode Booking", wx.DefaultPosition, wx.DefaultSize, 0 )
-		sbSizer41.Add( self.m_button36, 0, wx.ALL|wx.EXPAND, 5 )
+		self.text_kode_booking = wx.TextCtrl( sbSizer20.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		sbSizer20.Add( self.text_kode_booking, 0, wx.ALL|wx.EXPAND, 5 )
 
 
-		bSizer7.Add( sbSizer41, 1, wx.EXPAND, 5 )
+		bSizer29.Add( sbSizer20, 1, wx.EXPAND, 5 )
 
-		sbSizer42 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Detail Pesanan" ), wx.VERTICAL )
+		sbSizer201 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Paket Wisata" ), wx.VERTICAL )
 
-		self.m_textCtrl67 = wx.TextCtrl( sbSizer42.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
-		sbSizer42.Add( self.m_textCtrl67, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-		bSizer7.Add( sbSizer42, 1, wx.EXPAND, 5 )
-
-		self.m_button33 = wx.Button( self, wx.ID_ANY, u"Selesai", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button33.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNHIGHLIGHT ) )
-		self.m_button33.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHT ) )
-
-		bSizer7.Add( self.m_button33, 0, wx.ALL|wx.EXPAND, 5 )
+		self.text_paket_wisata = wx.TextCtrl( sbSizer201.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		sbSizer201.Add( self.text_paket_wisata, 0, wx.ALL|wx.EXPAND, 5 )
 
 
-		self.SetSizer( bSizer7 )
+		bSizer29.Add( sbSizer201, 1, wx.EXPAND, 5 )
+
+		sbSizer202 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Tanggal Berangkat" ), wx.VERTICAL )
+
+		self.text_tanggal_berangkat = wx.TextCtrl( sbSizer202.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		sbSizer202.Add( self.text_tanggal_berangkat, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer29.Add( sbSizer202, 1, wx.EXPAND, 5 )
+
+		sbSizer203 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Tanggal Pulang" ), wx.VERTICAL )
+
+		self.text_tanggal_pulang = wx.TextCtrl( sbSizer203.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		sbSizer203.Add( self.text_tanggal_pulang, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer29.Add( sbSizer203, 1, wx.EXPAND, 5 )
+
+		sbSizer204 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Status" ), wx.VERTICAL )
+
+		self.text_status = wx.TextCtrl( sbSizer204.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		sbSizer204.Add( self.text_status, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer29.Add( sbSizer204, 1, wx.EXPAND, 5 )
+
+		sbSizer205 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Daftar Destinasi Wisata" ), wx.VERTICAL )
+
+		self.list_destinasi_wisata = wx.ListCtrl( sbSizer205.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT )
+		sbSizer205.Add( self.list_destinasi_wisata, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer29.Add( sbSizer205, 1, wx.EXPAND, 5 )
+
+		sbSizer2051 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Daftar Peserta" ), wx.VERTICAL )
+
+		self.list_peserta = wx.ListCtrl( sbSizer2051.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT )
+		sbSizer2051.Add( self.list_peserta, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer29.Add( sbSizer2051, 1, wx.EXPAND, 5 )
+
+		self.btn_back = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer29.Add( self.btn_back, 0, wx.ALL|wx.EXPAND, 5 )
+
+
+		self.SetSizer( bSizer29 )
 		self.Layout()
 
 		self.Centre( wx.BOTH )
 
+		# Connect Events
+		self.btn_back.Bind( wx.EVT_BUTTON, self.btn_back_onclick )
+
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btn_back_onclick( self, event ):
+		event.Skip()
 
 
 ###########################################################################

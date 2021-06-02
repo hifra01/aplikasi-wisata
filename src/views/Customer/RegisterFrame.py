@@ -14,6 +14,7 @@ class RegisterFrame(daftarForm):
         data['email'] = self.text_email.GetValue()
         data['password'] = self.text_password.GetValue()
         data['confirm_password'] = self.text_confirm_password.GetValue()
+        pub.sendMessage("btn_register_clicked", data=data)
 
 
     def btn_go_to_login_onclick(self, event):

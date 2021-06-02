@@ -19,11 +19,11 @@ class DB:
             return dict(row)
         return None
 
-    def select_all(self, table_name):
+    def select_many(self, table_name, **column):
         table = self.__conn.load_table(table_name)
-        rows = table.all()
+        rows = table.all(**column)
         if rows is not None:
-            return list(map(lambda x: dict(x), rows))
+            return tuple(rows)
         return None
 
     def insert_one(self, table_name, **values):
@@ -47,11 +47,12 @@ class DB:
         if row is not None:
             table.delete(id=id)
 
+    def query(self, query: str, **kwargs):
+        return tuple(self.__conn.query(query, **kwargs))
+
 
 if __name__ == '__main__':
     db = DB()
-    try:
-        print(db.select_one("destinasi_wisata", nama_tempat="Watu Ulo"))
-        print(db.select_all("destinasi_wisata"))
-    except OperationalError as e:
-        print(e)
+    args = dict()
+    args['kota'] = '10'
+    print(bool(db.select_many("paket_wisata", kota='10')))

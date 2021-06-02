@@ -7,7 +7,13 @@ class PersonsModel(Model):
         super().__init__()
         self.table = "person"
 
-    def get_person_by_email(self, email: str, password: str):
+    def is_email_exist(self, email: str):
+        result = self.db.select_one(self.table, email=email)
+        if result is not None:
+            return True
+        return False
+
+    def get_person_by_email_and_password(self, email: str, password: str):
         return self.db.select_one(self.table, email=email, password=password)
 
     def add_person(self, email, password, role):
@@ -16,4 +22,4 @@ class PersonsModel(Model):
 
 if __name__ == '__main__':
     person = PersonsModel()
-    print(person.get_person_by_email("admin@aplikasiwisata", "admin"))
+    print(person.get_person_by_email_and_password("admin@aplikasiwisata", "admin"))

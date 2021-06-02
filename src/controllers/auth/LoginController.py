@@ -15,7 +15,7 @@ class LoginController(Controller):
         pub.subscribe(self.go_to_register, "btn_go_to_register_clicked")
 
     def authenticate(self, email: str, password: str):
-        person = self.model.get_person_by_email(email, password)
+        person = self.model.get_person_by_email_and_password(email, password)
         if person is not None:
             self.session['person_id'] = person['id']
             if person['role'] == 'customer':
