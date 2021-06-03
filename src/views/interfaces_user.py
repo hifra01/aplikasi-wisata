@@ -129,6 +129,7 @@ class daftarForm ( wx.Frame ):
 		sbSizer3.Add( self.m_staticText6, 0, wx.ALL, 5 )
 
 		self.text_noktp = wx.TextCtrl( sbSizer3.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,30 ), 0|wx.BORDER_NONE )
+		self.text_noktp.SetMaxLength( 16 )
 		self.text_noktp.SetFont( wx.Font( 16, wx.FONTFAMILY_SWISS, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "Arial" ) )
 
 		sbSizer3.Add( self.text_noktp, 0, wx.ALL|wx.EXPAND, 5 )

@@ -68,10 +68,10 @@ class CustomerController(Controller):
 
     def order_history(self):
         orders = self.orders_model.get_customer_order_history(self.session['customer_id'])
-        if orders:
-            from views.Customer.OrderHistoryFrame import OrderHistoryFrame
-            history_view = OrderHistoryFrame(orders, parent=self.view)
-            history_view.Show()
+
+        from views.Customer.OrderHistoryFrame import OrderHistoryFrame
+        history_view = OrderHistoryFrame(orders, parent=self.view)
+        history_view.Show()
 
     def see_order_detail(self, order_id, parent=None):
         data = self.orders_model.get_order_detail(order_id)

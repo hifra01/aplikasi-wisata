@@ -16,6 +16,5 @@ class RegisterFrame(daftarForm):
         data['confirm_password'] = self.text_confirm_password.GetValue()
         pub.sendMessage("btn_register_clicked", data=data)
 
-
     def btn_go_to_login_onclick(self, event):
         pub.sendMessage("btn_go_to_login_clicked")

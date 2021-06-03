@@ -3,6 +3,7 @@ from views.Customer.RegisterFrame import RegisterFrame
 from models.PersonsModel import PersonsModel
 from pubsub import pub
 import wx
+import re
 
 
 class RegisterController(Controller):
@@ -14,6 +15,15 @@ class RegisterController(Controller):
         pub.subscribe(self.go_to_login, "btn_go_to_login_clicked")
         pub.subscribe(self.validate_registration, "btn_register_clicked")
 
+    def _validate_email(self, email):
+        # return True if s is a valid email, else return False
+        pattern = r'^[\w-]+@[\w-]+\.[a-z]+$'
+        m = re.match(pattern, email)
+        if m:
+            return True
+        else:
+            return False
+
     def go_to_login(self):
         pub.sendMessage("change_controller")
 
@@ -21,6 +31,12 @@ class RegisterController(Controller):
         for key in data.keys():
             if data[key] == "":
                 return wx.MessageBox("Harap isi semua kolom!")
+        if not data['no_ktp'].isnumeric() or len(data['no_ktp']) < 16:
+            return wx.MessageBox("Nomor KTP harus berupa 16 digit angka!")
+        if not data['no_hp'].isnumeric():
+            return wx.MessageBox("Nomor HP harus berupa angka!")
+        if not self._validate_email(data['email']):
+            return wx.MessageBox("Email tidak valid!")
         if data['password'] != data['confirm_password']:
             return wx.MessageBox("Password dan Konfirmasi password tidak sama!")
         if self.model.is_email_exist(data['email']):
