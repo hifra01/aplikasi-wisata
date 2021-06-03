@@ -1,8 +1,8 @@
-from views.interfaces_user import riwayatPesanan
+from views.interfaces_user import ajukanPembatalan
 from pubsub import pub
 
 
-class OrderHistoryFrame(riwayatPesanan):
+class CancelListFrame(ajukanPembatalan):
     order_id_list = []
 
     def __init__(self, data, parent=None):
@@ -42,4 +42,5 @@ class OrderHistoryFrame(riwayatPesanan):
         self.selected_index = None
 
     def btn_order_detail_onclick(self, event):
-        pub.sendMessage("btn_order_detail_clicked", order_id=self.order_id_list[self.selected_index], parent=self)
+        pub.sendMessage("btn_cancel_detail_clicked", order_id=self.order_id_list[self.selected_index], parent=self)
+        pass

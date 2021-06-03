@@ -39,7 +39,7 @@ class DB:
             table = self.__conn.load_table(table_name)
             row = table.find_one(id=values['id'])
             if row is not None:
-                table.update(values, keys=['id'])
+                return table.update(values, keys=['id'])
 
     def delete_one(self, table_name, id):
         table = self.__conn.load_table(table_name)

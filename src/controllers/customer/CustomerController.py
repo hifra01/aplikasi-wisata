@@ -2,6 +2,7 @@ from core.Controller import Controller
 from views.Customer.HomeFrame import HomeFrame
 from views.Customer.MakeOrderFrame import MakeOrderFrame
 from views.Customer.WaitingPaymentFrame import WaitingPaymentFrame
+from views.Customer.CancelListFrame import CancelListFrame
 from pubsub import pub
 from models.OrdersModel import OrdersModel
 from models.PaketWisataModel import PaketWisataModel
@@ -15,6 +16,8 @@ class CustomerController(Controller):
     make_order_view = None
     waiting_payment_view = None
     payment_frame = None
+    cancel_list_view = None
+    cancel_detail_view = None
 
     def __init__(self, session):
         super().__init__(session)
@@ -37,6 +40,9 @@ class CustomerController(Controller):
         pub.subscribe(self.show_waiting_payment, "btn_confirm_payment_clicked")
         pub.subscribe(self.see_waiting_payment_detail, "btn_payment_detail_clicked")
         pub.subscribe(self.pay_order, "make_payment")
+        pub.subscribe(self.show_cancel_order_list, "btn_cancel_order_clicked")
+        pub.subscribe(self.show_cancel_order_detail, "btn_cancel_detail_clicked")
+        pub.subscribe(self.cancel_order, "cancel_order")
 
     def generate_booking_code(self, id_paket_wisata):
         id_kota = self.paket_wisata_model.get_city_id_from_paket_wisata(id_paket_wisata)
@@ -101,3 +107,35 @@ class CustomerController(Controller):
             self.waiting_payment_view.render_cells()
             return self.payment_frame.Destroy()
         return wx.MessageBox("Ada kesalahan!", "Error", wx.OK | wx.ICON_ERROR)
+
+    def show_cancel_order_list(self):
+        data = self.orders_model.get_order_can_cancel(self.session['customer_id'])
+        self.cancel_list_view = CancelListFrame(data, self.view)
+        self.cancel_list_view.Show()
+
+    def show_cancel_order_detail(self, order_id, parent=None):
+        data = self.orders_model.get_order_detail(order_id)
+        if data:
+            from views.Customer.CancelDetailFrame import CancelDetailFrame
+            self.cancel_detail_view = CancelDetailFrame(data, parent)
+            self.cancel_detail_view.Show()
+
+    def cancel_order(self, order_id):
+        result = self.orders_model.update_order_status(
+            order_id=order_id,
+            status='menunggu_pembatalan'
+        )
+        if result:
+            wx.MessageBox("Pengajuan Pembatalan Sukses. Silakan menunggu verifikasi dari admin.", "Pembayaran sukses!")
+            data = self.orders_model.get_order_can_cancel(self.session['customer_id'])
+            self.cancel_list_view.data = data
+            self.cancel_list_view.render_cells()
+            return self.cancel_detail_view.Destroy()
+        return wx.MessageBox("Ada kesalahan!", "Error", wx.OK | wx.ICON_ERROR)
+
+
+if __name__ == '__main__':
+    session = dict()
+    session['customer_id'] = 1
+    c = CustomerController(session)
+    c.cancel_order(1)

@@ -32,6 +32,7 @@ class OrdersModel(Model):
         if order_result:
             order_data = order_result[0]
             data = dict()
+            data['order_id'] = order_data['id']
             data['kode_booking'] = order_data['kode_booking']
             data['paket_wisata'] = order_data['paket_wisata']
             data['status'] = order_data['keterangan']
@@ -110,6 +111,21 @@ class OrdersModel(Model):
             data['tanggal_pulang'] = order_data['tanggal_pulang']
 
             return data
+        return None
+
+    def get_order_can_cancel(self, customer_id):
+        statement = "SELECT o.id as id, o.kode_booking as kode_booking, " \
+                    "pw.nama as nama_paket, oss.keterangan as status " \
+                    "FROM `order` o " \
+                    "JOIN order_status_string oss on oss.id_status_order = o.id_status_order " \
+                    "JOIN paket_wisata pw on pw.id = o.id_paket_wisata " \
+                    "WHERE o.customer=:customer_id " \
+                    "AND o.id_status_order NOT IN ('menunggu_verifikasi', 'menunggu_pembatalan', 'dibatalkan')"
+        where_filter = dict()
+        where_filter['customer_id'] = customer_id
+        result = self.db.query(statement, **where_filter)
+        if result:
+            return result
         return None
 
     def update_order_status(self, order_id, status):
