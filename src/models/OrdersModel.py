@@ -59,7 +59,24 @@ class OrdersModel(Model):
 
         return None
 
+    def get_next_auto_increment(self):
+        query = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES ' \
+                'WHERE TABLE_SCHEMA="aplikasi-wisata" ' \
+                'AND TABLE_NAME="order"'
+        return self.db.query(query)[0]['AUTO_INCREMENT']
+
+    def insert_new_order(self, data):
+        new_row_id = self.db.insert_one(
+            self.table,
+            kode_booking=data['kode_booking'],
+            customer=data['customer_id'],
+            id_paket_wisata=data['id_paket_wisata'],
+            tanggal_berangkat=data['tanggal_berangkat'],
+            tanggal_pulang=data['tanggal_pulang']
+        )
+        return new_row_id
+
 
 if __name__ == '__main__':
     om = OrdersModel()
-    print(om.get_order_detail(1))
+    print(om.get_next_auto_increment())
