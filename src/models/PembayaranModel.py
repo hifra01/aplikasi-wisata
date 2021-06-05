@@ -13,3 +13,12 @@ class PembayaranModel(Model):
             kode_bukti=data['kode_bukti']
         )
         return result
+
+    def update_payment_status(self, status, pembayaran_id, admin_id):
+        result = self.db.update_one(
+            self.table,
+            id=pembayaran_id,
+            status_verifikasi=status,
+            petugas_verifikasi=admin_id
+        )
+        return result

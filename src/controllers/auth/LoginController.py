@@ -26,6 +26,14 @@ class LoginController(Controller):
                 self.session['customer_id'] = customer['id']
                 self.session['customer_name'] = customer['nama_lengkap']
                 pub.sendMessage("change_controller", controller=CustomerController, session=self.session)
+            elif person['role'] == 'admin':
+                from controllers.admin.AdminController import AdminController
+                from models.AdminsModel import AdminsModel
+                admins_model = AdminsModel()
+                admin = admins_model.get_admin_by_person_id(self.session['person_id'])
+                self.session['admin_id'] = admin['id']
+                pub.sendMessage("change_controller", controller=AdminController, session=self.session)
+
         else:
             wx.MessageBox("Login Gagal!")
 

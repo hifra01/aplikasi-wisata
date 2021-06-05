@@ -9,5 +9,5 @@ class AdminsModel(Model):
     def get_admin_by_person_id(self, person_id):
         return self.db.select_one(self.table, person_id=person_id)
 
-    def add_admin(self, person_id, nama, created_date):
-        return self.db.insert_one(self.table, person_id=person_id, nama=nama, created_date=created_date)
+    def add_admin(self, person_id, nama):
+        return self.db.insert_one(self.table, person_id=person_id, nama=nama)

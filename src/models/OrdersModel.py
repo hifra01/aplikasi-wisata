@@ -22,9 +22,12 @@ class OrdersModel(Model):
 
     def get_order_detail(self, order_id):
         order_query = "SELECT o.id, o.kode_booking, oss.keterangan,o.id_paket_wisata, " \
-                      "pw.nama as paket_wisata, o.tanggal_berangkat, o.tanggal_pulang " \
+                      "pw.nama as paket_wisata, o.tanggal_berangkat, o.tanggal_pulang, " \
+                      "c.nama_lengkap, c.no_hp, p.id as pembayaran_id, p.kode_bukti " \
                       "FROM `order` o JOIN paket_wisata pw on pw.id = o.id_paket_wisata " \
                       "JOIN order_status_string oss on oss.id_status_order = o.id_status_order " \
+                      "JOIN customers c on c.id = o.customer " \
+                      "LEFT JOIN pembayaran p on o.id = p.order_id " \
                       "WHERE o.id=:order_id "
         order_filter = dict()
         order_filter['order_id'] = order_id
@@ -38,6 +41,10 @@ class OrdersModel(Model):
             data['status'] = order_data['keterangan']
             data['tanggal_berangkat'] = order_data['tanggal_berangkat']
             data['tanggal_pulang'] = order_data['tanggal_pulang']
+            data['nama_pelanggan'] = order_data['nama_lengkap']
+            data['no_hp'] = order_data['no_hp']
+            data['pembayaran_id'] = order_data['pembayaran_id']
+            data['referensi_pembayaran'] = order_data['kode_bukti']
 
             tempat_wisata_query = "SELECT dw.nama_tempat FROM destinasi_dalam_paket ddp " \
                                   "JOIN paket_wisata pw ON pw.id = ddp.paket " \
@@ -134,6 +141,68 @@ class OrdersModel(Model):
             id=order_id,
             id_status_order=status
         )
+
+    def get_orders_waiting_payment_verification(self, search=""):
+        query = "SELECT o.id as id, o.kode_booking as kode_booking, " \
+                "pw.nama as nama_paket, oss.keterangan as status, c.nama_lengkap " \
+                "FROM `order` o " \
+                "JOIN order_status_string oss on oss.id_status_order = o.id_status_order " \
+                "JOIN paket_wisata pw on pw.id = o.id_paket_wisata " \
+                "JOIN customers c on c.id = o.customer " \
+                "WHERE o.id_status_order='menunggu_verifikasi'"
+
+        if search != "":
+            query += " AND kode_booking LIKE :search"
+            values = dict()
+            values['search'] = '%' + search + '%'
+            result = self.db.query(query, **values)
+        else:
+            result = self.db.query(query)
+
+        if result:
+            return result
+        return None
+
+    def get_orders_waiting_cancel_verification(self, search=""):
+        query = "SELECT o.id as id, o.kode_booking as kode_booking, " \
+                "pw.nama as nama_paket, oss.keterangan as status, c.nama_lengkap " \
+                "FROM `order` o " \
+                "JOIN order_status_string oss on oss.id_status_order = o.id_status_order " \
+                "JOIN paket_wisata pw on pw.id = o.id_paket_wisata " \
+                "JOIN customers c on c.id = o.customer " \
+                "WHERE o.id_status_order='menunggu_pembatalan'"
+
+        if search != "":
+            query += " AND kode_booking LIKE :search"
+            values = dict()
+            values['search'] = '%' + search + '%'
+            result = self.db.query(query, **values)
+        else:
+            result = self.db.query(query)
+
+        if result:
+            return result
+        return None
+
+    def get_all_orders(self, search=""):
+        query = "SELECT o.id as id, o.kode_booking as kode_booking, " \
+                "pw.nama as nama_paket, oss.keterangan as status, c.nama_lengkap " \
+                "FROM `order` o " \
+                "JOIN order_status_string oss on oss.id_status_order = o.id_status_order " \
+                "JOIN paket_wisata pw on pw.id = o.id_paket_wisata " \
+                "JOIN customers c on c.id = o.customer"
+
+        if search != "":
+            query += " AND kode_booking LIKE :search"
+            values = dict()
+            values['search'] = '%' + search + '%'
+            result = self.db.query(query, **values)
+        else:
+            result = self.db.query(query)
+
+        if result:
+            return result
+        return None
 
 
 if __name__ == '__main__':

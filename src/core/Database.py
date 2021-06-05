@@ -1,5 +1,4 @@
 import dataset
-from sqlalchemy.exc import OperationalError
 
 
 class DB:
