@@ -11,10 +11,14 @@ class MakeOrderFrame(Pesan):
 
     def __init__(self, daftar_paket_wisata, parent=None):
         super().__init__(parent)
+        self.paket_wisata_index = []
+        self.daftar_peserta = []
+        self.selected_peserta = None
         self.paket_wisata_choices = daftar_paket_wisata
         self.set_paket_wisata_choices()
         self.btn_delete_person.Disable()
         pub.subscribe(self.add_new_person, "add_new_person")
+        print(self.daftar_peserta)
 
     def _wxdate2pydate(self, date):
         import datetime
@@ -26,9 +30,9 @@ class MakeOrderFrame(Pesan):
             return None
 
     def add_new_person(self, data):
+        print(self.daftar_peserta)
         self.daftar_peserta.append(data)
         self.set_daftar_peserta()
-        print(self.daftar_peserta)
 
     def set_paket_wisata_choices(self):
         self.combobox_paket_wisata.Clear()
