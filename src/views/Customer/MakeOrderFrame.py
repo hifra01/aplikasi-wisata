@@ -30,7 +30,6 @@ class MakeOrderFrame(Pesan):
             return None
 
     def add_new_person(self, data):
-        print(self.daftar_peserta)
         self.daftar_peserta.append(data)
         self.set_daftar_peserta()
 
